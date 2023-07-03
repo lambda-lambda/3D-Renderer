@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>axe 17</title>
+
+    <script src='utils.js'></script>
+    <script src='gua_object.js'></script>
+    <script src='vector.js'></script>
+    <script src='color.js'></script>
+    <script src='vertex.js'></script>
+    <script src='matrix.js'></script>
+    <script src='texture.js'></script>
+    <script src='mesh.js'></script>
+    <script src='canvas.js'></script>
+
+    <script src="slider.js"></script>
+    <script src='config.js'></script>
+
+    <link href='http://fonts.font.im/css?family=Orbitron' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="index.css">
+
+
+    <script src='pics/illidan_gua3d.js'></script>
+    <script src='pics/illidan_guaimage.js'></script>
+    <script src='pics/ball_gua3d.js'></script>
+    <script src='pics/ball_guaimage.js'></script>
+    <script src='pics/earth.guaimage.js'></script>
+
+
+</head>
+<body>
+
+<div class="container">
+    <div class="workspace">
+        <h1><i>AXE RENDERER</i></h1>
+        <canvas id="id-canvas" width="800" height="450"></canvas>
+        <div class="config"></div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    const main = function () {
+          let mesh = GuaMesh.new(GuaVector.new(0, 0, 0),GuaVector.new(1, 1, 1)).fromGua3D(illidan3d)
+          let t = GuaTexture.fromGuaImage(illidan_guaimage)
+        // let mesh = GuaMesh.new(GuaVector.new(0, 0, 0),GuaVector.new(1, 1, 1)).sphere(4)
+        // let t = GuaTexture.fromGuaImage(earthImage)
+         mesh.texture = t
+
+
+        let canvas = GuaCanvas.new('#id-canvas' )
+        initSliders()
+        canvas.drawMesh(mesh)
+
+        canvas.render()
+
+        setInterval(function () {
+            canvas.clear(color = GuaColor.black())
+
+            canvas.camera.position.x = config.camera_position_x.value
+            canvas.camera.position.y = config.camera_position_y.value
+            canvas.camera.position.z = config.camera_position_z.value
+            canvas.camera.target.x = config.camera_target_x.value
+            canvas.camera.target.y = config.camera_target_y.value
+            canvas.camera.target.z = config.camera_target_z.value
+            canvas.camera.up.x = config.camera_up_x.value
+            canvas.camera.up.y = config.camera_up_y.value
+            canvas.camera.up.z = config.camera_up_z.value
+
+            mesh.position.x = config.mesh_position_x.value
+            mesh.position.y = config.mesh_position_y.value
+            mesh.position.z = config.mesh_position_z.value
+            mesh.rotation.x = config.rotation_x.value
+            //mesh.rotation.y = config.rotation_y.value
+            mesh.rotation.z = config.rotation_z.value
+            mesh.scale.x = config.scale_x.value
+            mesh.scale.y = config.scale_y.value
+            mesh.scale.z = config.scale_z.value
+
+
+            canvas.light.x = config.light_x.value
+            canvas.light.y = config.light_y.value
+            canvas.light.z = config.light_z.value
+            //log("light --" ,canvas.light.toString())
+            mesh.rotation.y += 0.05
+            log("mesh.rotation.y",mesh.rotation.y )
+
+            canvas.drawMesh(mesh)
+
+            canvas.render()
+        }, 200)
+    }
+
+    main()
+
+
+</script>
+</body>
+</html>
